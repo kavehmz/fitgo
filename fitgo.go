@@ -73,6 +73,26 @@ func (u *Stream) G(s string) *Stream {
 	return u.Grep(s)
 }
 
+// Replace will Replace lines based on passed regular expression and replace string
+// It is using regexp.ReplaceAllString
+func (u *Stream) Replace(s string, t string) *Stream {
+	tmp := initStream()
+	go func() {
+		r, _ := regexp.Compile(s)
+		for l := range u.lines {
+			tmp.lines <- r.ReplaceAllString(l, t)
+		}
+		close(tmp.lines)
+	}()
+	return tmp
+}
+
+// R will Replace lines based on passed regular expression and replace string
+// It is using regexp.ReplaceAllString
+func (u *Stream) R(s string, t string) *Stream {
+	return u.Replace(s, t)
+}
+
 // Count will return count of lines in the current stream
 func (u *Stream) Count() *Stream {
 	tmp := initStream()
