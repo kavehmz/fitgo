@@ -1,9 +1,9 @@
 #!/bin/bash
-FILE=$(mktemp).go
+FILE=$(mktemp)
 LINE=$1
 [ "$LINE" == "" ] && read LINE
 
-cat > $FILE <<END
+cat > $FILE.go <<END
 package main
 import . "github.com/kavehmz/fitgo"
 func main() {
@@ -11,4 +11,5 @@ func main() {
 }
 END
 
-go run $FILE
+go build -o $FILE $FILE.go
+$FILE
