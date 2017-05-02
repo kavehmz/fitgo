@@ -168,8 +168,7 @@ func (u *Stream) readFile(s string) *Stream {
 }
 
 func (u *Stream) readStdIn(s string) *Stream {
-	reader := bufio.NewReader(os.Stdin)
-	scanner := bufio.NewScanner(reader)
+	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		u.lines <- scanner.Text()
 	}
